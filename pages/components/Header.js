@@ -1,7 +1,9 @@
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
-
+import { useSession, signOut } from "next-auth/client";
 const Header = () => {
+  const [session] = useSession();
+
   return (
     <header className="sticky top-0 z-50 flex items-center px-4 py-2 shadow-md bg-white">
       <Button
@@ -34,15 +36,16 @@ const Header = () => {
         rounded={true}
         iconOnly={true}
         ripple="dark"
-        className="hidden md:inline-flex ml-5 md:ml-20 h-20 w-20 border-0"
+        className="md:inline-flex ml-5 md:ml-20 h-20 w-20 border-0"
       >
         <Icon name="apps" size="3xl" color="gray" />
       </Button>
       <img
-        src="https://avatars.githubusercontent.com/u/59042228?v=4"
+        src={session?.user?.image}
         className="cursor-pointer h-12 w-12 rounded-full ml-2 "
         loading="lazy"
         alt=""
+        onClick={signOut}
       />
     </header>
   );

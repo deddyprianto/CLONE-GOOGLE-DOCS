@@ -6,9 +6,10 @@ import Image from "next/image";
 import { getSession, useSession } from "next-auth/client";
 import Login from "./components/Login";
 
-export default function Home() {
+export default function Home({ dataSession }) {
   const [session] = useSession();
   if (!session) return <Login />;
+
   return (
     <div>
       <Head>
@@ -21,7 +22,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto">
           {/* start new Document */}
           <div className="flex items-center justify-between py-6">
-            <h2 className="text-gray-700 text-lg">Start New Document </h2>
+            <h2 className="text-gray-700 text-lg">Mulai Document Baru</h2>
             <Button
               color="gray"
               buttonType="outline"
@@ -35,7 +36,10 @@ export default function Home() {
           {/* add a new document */}
           <div className="">
             <div className="relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700">
-              <Image layout="fill" />
+              <Image
+                src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png"
+                layout="fill"
+              />
             </div>
             <p className="ml-2 mt-2 font-semibold text-sm text-gray-700">
               Blank
@@ -56,4 +60,14 @@ export default function Home() {
       </section>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  console.log(context);
+  return {
+    props: {
+      dataSession: session,
+    },
+  };
 }
