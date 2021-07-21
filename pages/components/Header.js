@@ -39,7 +39,7 @@ const Header = () => {
         <Icon name="apps" size="3xl" color="gray" />
       </Button>
       <img
-        src=""
+        src="https://avatars.githubusercontent.com/u/59042228?v=4"
         className="cursor-pointer h-12 w-12 rounded-full ml-2 "
         loading="lazy"
         alt=""
