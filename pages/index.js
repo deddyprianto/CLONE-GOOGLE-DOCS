@@ -12,19 +12,21 @@ import ModalFooter from "@material-tailwind/react/ModalFooter";
 import db from "../firebase";
 import firebase from "firebase";
 import DocumentRow from "./components/DocumentRow";
+import { useCollection } from "react-firebase-hooks/firestore";
 
-export default function Home({ dataSession }) {
+export default function Home({ session }) {
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState("");
-  const [session] = useSession();
-  const [snapshot] = useCollection(
-    db
-      .collection("userDocs")
-      .doc(session?.user?.email)
-      .collection("docs")
-      .orderBy("timestamp", "desc")
-  );
+
+  // const [snapshot] = useCollection(
+  //   db
+  //     .collection("userDocs")
+  //     .doc(session?.user?.email)
+  //     .collection("docs")
+  //     .orderBy("timestamp", "desc")
+  // );
   if (!session) return <Login />;
+  // function
   const createDocument = () => {
     if (!input) return;
     db.collection("userDocs").doc(session?.user?.email).collection("docs").add({
@@ -35,7 +37,7 @@ export default function Home({ dataSession }) {
     setShowModal(false);
   };
   const modal = (
-    <Modal size="sm" active={showModal} toggler={() => setShowModal(true)}>
+    <Modal size="sm" active={showModal} toggler={() => setShowModal(false)}>
       <ModalBody>
         <input
           value={input}
@@ -111,14 +113,14 @@ export default function Home({ dataSession }) {
             <p className="mr-12">Date Created</p>
             <Icon name="folder" size="3xl" color="gray" />
           </div>
-          {session?.docs.map((doc) => (
+          {/* {snapshot?.docs.map((doc) => (
             <DocumentRow
               key={doc.id}
               id={doc.id}
               fileName={doc.data().fileName}
               date={doc.data().timestamp}
             />
-          ))}
+          ))} */}
         </div>
       </section>
     </div>
@@ -127,10 +129,9 @@ export default function Home({ dataSession }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  console.log(context);
   return {
     props: {
-      dataSession: session,
+      session,
     },
   };
 }

@@ -15,12 +15,12 @@ const TextEditor = () => {
   const router = useRouter();
   const { id } = router.query;
   const [editorstate, setEditorstate] = useState(EditorState.createEmpty());
-  useEffect(() => {
-    if (snapshot)
-      return () => {
-        cleanup;
-      };
-  }, []);
+  // useEffect(() => {
+  //   if (snapshot)
+  //     return () => {
+  //       cleanup;
+  //     };
+  // }, []);
   const oneditorStateChange = (editorState) => {
     setEditorstate(editorState);
     db.collection("userDocs")
