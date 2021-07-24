@@ -1,7 +1,9 @@
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
 import { useRouter } from "next/dist/client/router";
+
 const DocumentRow = ({ id, fileName, date }) => {
+  // The matched path parameter will be sent as a query parameter to the page, and it will be merged with the other query parameters.
   const router = useRouter();
   return (
     <div

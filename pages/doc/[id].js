@@ -4,6 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import db from "../../firebase";
 import { getSession, signOut, useSession } from "next-auth/client";
 import Login from "../components/Login";
+import { useDocumentOnce } from "react-firebase-hooks/firestore";
 import TextEditor from "../components/TextEditor";
 
 const Doc = () => {
@@ -68,11 +69,9 @@ const Doc = () => {
 
 export default Doc;
 
-async export function getServerSideProps(context){
-  const session = await getSession(context)
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
   return {
-    props: {
-      session
-    }
-  }
+    props: session,
+  };
 }

@@ -1,26 +1,23 @@
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { useRouter } from "next/router";
 import db from "../../firebase";
 import { useSession } from "next-auth/client";
 import { useDocumentOnce } from "react-firebase-hooks/firestore";
+
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((module) => module.Editor),
   { ssr: false }
 );
+
 const TextEditor = () => {
   const [session] = useSession();
   const router = useRouter();
   const { id } = router.query;
   const [editorstate, setEditorstate] = useState(EditorState.createEmpty());
-  // useEffect(() => {
-  //   if (snapshot)
-  //     return () => {
-  //       cleanup;
-  //     };
-  // }, []);
+
   const oneditorStateChange = (editorState) => {
     setEditorstate(editorState);
     db.collection("userDocs")
@@ -34,7 +31,7 @@ const TextEditor = () => {
         { merge: true }
       );
   };
-  const [session] = useDocumentOnce(
+  const [sessionData] = useDocumentOnce(
     db
       .collection("userDocs")
       .doc(session?.user?.email)

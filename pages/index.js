@@ -18,13 +18,14 @@ export default function Home({ session }) {
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState("");
 
-  // const [snapshot] = useCollection(
-  //   db
-  //     .collection("userDocs")
-  //     .doc(session?.user?.email)
-  //     .collection("docs")
-  //     .orderBy("timestamp", "desc")
-  // );
+  const [snapshot, loading] = useCollection(
+    db
+      .collection("userDocs")
+      .doc(session?.user?.email)
+      .collection("docs")
+      .orderBy("timestamp", "desc")
+  );
+
   if (!session) return <Login />;
   // function
   const createDocument = () => {
@@ -113,14 +114,18 @@ export default function Home({ session }) {
             <p className="mr-12">Date Created</p>
             <Icon name="folder" size="3xl" color="gray" />
           </div>
-          {/* {snapshot?.docs.map((doc) => (
-            <DocumentRow
-              key={doc.id}
-              id={doc.id}
-              fileName={doc.data().fileName}
-              date={doc.data().timestamp}
-            />
-          ))} */}
+          {snapshot?.docs.map((doc) => {
+            const id = doc.id;
+            console.log(id);
+            return (
+              <DocumentRow
+                key={id}
+                id={id}
+                fileName={doc.data().fileName}
+                date={doc.data().timestamp}
+              />
+            );
+          })}
         </div>
       </section>
     </div>
